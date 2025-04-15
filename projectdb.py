@@ -36,7 +36,7 @@ def viewdb(language):
     rows = execute_query("""SELECT city.name, city.population, country.name
                 FROM city JOIN country on city.countrycode = country.code JOIN country using (countrycode)
                 WHERE language = %s and percentage > 80
-                LIMIT 100""", (str(language))
+                """, (str(language))
                 )
     return display_html(rows)
 
