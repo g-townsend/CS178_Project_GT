@@ -33,8 +33,9 @@ def display_html(rows):
 
 @app.route("/languagequery/<language>")
 def viewdb(language):
-    rows = execute_query("""SELECT city.name, city.population, language
-                FROM name JOIN countrylanguage using (countrycode)
+    rows = execute_query("""SELECT city.name, city.population, language, country.name
+                FROM city JOIN country on city.countrycode = country.code 
+                         countrylanguage using (countrycode)
                 WHERE language = %s and percentage > 50
                 ORDER BY city.name
                 LIMIT 100""", (str(language))
