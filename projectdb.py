@@ -26,30 +26,30 @@ def display_html(rows):
     html += """<table><tr><th>City</th><th>Population</th><th>Country</th></tr>"""
 
     for r in rows:
-        html += "<tr><td>" + str(r[0]) + "</td><td>" + str(r[1]) + "</td><td>" + str(r[2]) + "</td></tr>"
+        html += "<tr><td>" + str(r[0]) + "</td><td>" + str(r[1]) + "</td><td>" + str(r[2]) + "</td><td>"+ str(r[3]) + "</td></tr>"
     html += "</table></body>"
     return html
 
 
-@app.route("/languagequery/<language>")
-def viewdb(language):
-    rows = execute_query("""SELECT city.name, city.population, country.name
-                FROM city JOIN country on city.countrycode = country.code JOIN country using (countrycode)
-                WHERE language = %s and percentage > 80
-                """, (str(language))
+@app.route("/countryquery/<country>")
+def viewdb(country):
+    rows = execute_query("""SELECT country.name, country.population, country.capital. city.name
+                FROM city JOIN country on city.countrycode = country.code
+                WHERE country.name = %s 
+                """, (str(country))
                 )
     return display_html(rows)
 
 from flask import request
 
 from flask import render_template
-@app.route("/languagequerytextbox", methods = ['GET'])
-def langauge_form():
-  return render_template('textbox.html', fieldname = "language")
+@app.route("/countryquerytextbox", methods = ['GET'])
+def country_form():
+  return render_template('textbox.html', fieldname = "Country")
 
 
-@app.route("/languagequerytextbox", methods = ['POST'])
-def language_form_post():
+@app.route("/countryquerytextbox", methods = ['POST'])
+def country_form_post():
   text = request.form['text']
   return viewdb(text)
 
