@@ -1,6 +1,6 @@
 import pymysql
 import creds 
-from flask import Flask
+from flask import Flask, render_template
 
 import boto3
 app = Flask(__name__)
@@ -46,7 +46,6 @@ def viewdb(country):
 
 from flask import request
 
-from flask import render_template
 @app.route("/countryquerytextbox", methods = ['GET'])
 def country_form():
   return render_template('textbox.html', fieldname = "Country")
@@ -54,7 +53,7 @@ def country_form():
 #TABLE_NAME = "Vacation"
 
 #dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
-table = dynamodb.Table(TABLE_NAME)
+#table = dynamodb.Table(TABLE_NAME)
 @app.route("/countryquerytextbox", methods = ['POST'])
 def country_form_post():
   text = request.form['text']
