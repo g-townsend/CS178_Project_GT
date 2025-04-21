@@ -50,21 +50,24 @@ from flask import request
 def country_form():
   return render_template('textbox.html', fieldname = "Country")
 
-#TABLE_NAME = "Vacation"
+import boto3
+TABLE_NAME = "Vacation"
 
-#dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
-#table = dynamodb.Table(TABLE_NAME)
+dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
+table = dynamodb.Table(TABLE_NAME)
 @app.route("/countryquerytextbox", methods = ['POST'])
 def country_form_post():
   text = request.form['text']
- # data = request.json
- # newcity = data ['city']
-  #table.put_item(
-  #    Item = { 
-   #       'City' : newcity,
-          #'Cost' : []
-   #   }
-  #) 
+  data = request.json
+  newcity = data ['city']
+  table.put_item(
+      Item = { 
+          'City' : newcity,
+          'Cost' : []
+      }
+      
+  ) 
+
   return viewdb(text)
 
 if __name__ == '__main__': 
