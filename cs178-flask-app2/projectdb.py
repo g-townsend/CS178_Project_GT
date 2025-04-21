@@ -57,8 +57,8 @@ dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
 table = dynamodb.Table(TABLE_NAME)
 @app.route("/countryquerytextbox", methods = ['POST'])
 def country_form_post():
-  text = request.form['text']
-  newcity = request.form['city']
+  text = request.form.get('text')
+  newcity = request.form.get('city')
   table.put_item(
       Item = { 
           'City' : newcity,
