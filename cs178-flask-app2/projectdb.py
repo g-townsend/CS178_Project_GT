@@ -58,8 +58,7 @@ table = dynamodb.Table(TABLE_NAME)
 @app.route("/countryquerytextbox", methods = ['POST'])
 def country_form_post():
   text = request.form['text']
-  data = request.json
-  newcity = data ['city']
+  newcity = request.form['city']
   table.put_item(
       Item = { 
           'City' : newcity,
