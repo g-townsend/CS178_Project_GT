@@ -2,10 +2,12 @@ import boto3
 
 TABLE_NAME = "Vacation"
 
+#Connects to dynamodb table on AWS
 dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
 table = dynamodb.Table(TABLE_NAME)
 
 
+#adds vacation spot 
 def add_vacation_spot():
      Newcity = input("What city would you like to add to your vacation list?: ")
      table.put_item(
@@ -16,18 +18,19 @@ def add_vacation_spot():
     )
      print("adding your vacation spot")
 
+#prints out the entire vacation list 
 def vacation_list(vacation_dict):
-    # print out the values of the movie dictionary
     print("City: ", vacation_dict["City"])
     print("Cost: ", vacation_dict.get("Cost"))
     print()
     
 def print_entire_list():
-    response = table.scan() #get all of the movies
+    response = table.scan() 
     for city in response["Items"]:
         vacation_list(city)
 
 
+#allows the user to input the cost for a vacation spot that does not currently have one
 def update_vacationspot():
     try:
      newspot=input("What is the vacation spot you would like to update? ")
@@ -40,7 +43,7 @@ def update_vacationspot():
     except ValueError: 
         print("Error in adding cost to vacation spot. Please enter a numeric value.")
 
-
+#allows the user to delete a vacation spot 
 def delete_vacationspot():
     remove = input("What vacation spot would you like to remove from the database?: ")
     table.delete_item( 
@@ -50,6 +53,7 @@ def delete_vacationspot():
     )
     print("deleting city")
 
+#allows the user to search for a vacation spot to see what the cost is 
 def query_vacationspot():
     search = input("What vacation spot are you looking for?: ")
     response = table.get_item(
@@ -65,7 +69,8 @@ def query_vacationspot():
         print ("The cost for your vacation to", search, "is", city_cost)
            # print (average)
     print("query vacation spot")
-    
+
+#prints an option menu for the user to decide what they would like to do  
 def print_menu():
     print("----------------------------")
     print("Press C: to CREATE a vacation spot")
@@ -76,7 +81,7 @@ def print_menu():
     print("Press X: to EXIT application")
     print("----------------------------")
 
-
+#passed of user input, goes to correct function 
 def main():
     input_char = ""
     while input_char.upper() != "X":
